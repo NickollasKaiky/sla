@@ -1,0 +1,79 @@
+<?php
+
+const CHEQUE_ESPECIAL = 500;
+$clientes = [];
+
+function cadastar_cliente(&$clientes): bool
+{
+    $nome = readline('Informe seu nome: ');
+    $cpf = readline('Informe seu CPF: ');
+
+    if (isset($clientes[$cpf])) {
+        print('Esse CPF já possui cadastro');
+        return false;
+    }
+
+    $clientes[$cpf] = [
+        'nome' => $nome,
+        'CPF' => $cpf,
+        'contas' => []
+    ];
+    return true;
+}
+
+function cadastrar_contas(array &$clientes): bool
+{
+
+    $cpf = readline("Informe seu CPF:");
+
+    if (!isset($clientes[$cpf])) {
+        print 'Cliente não possui cadastro';
+        return false;
+    }
+    $num_conta = rand(10000,100000);
+
+    $clientes[$cpf]['contas'][$num_conta] =[
+        'saldo' => 0,
+        'chque_especial' => CHEQUE_ESPECIAL,
+        'extrato' => []
+
+    ];
+
+    print "Conta criada com sucesso\n";
+    return true;
+}
+
+function depositar(&$clientes){
+    $cpf = readline('Informe seu CPF novamente: ');
+
+    $num_conta = readline("Informe o número da conta ");
+
+    $valor_deposito = (float)readline('Informe o valor do depósito: ');
+
+    if($valor_deposito <= 0){
+        print "Valor de depósito inválido";
+    }
+    $clientes[$cpf]['contas'][$num_conta]['saldo'] =+ $valor_deposito;
+
+    $dataHora = date('d/m/Y H:i');
+    $clientes[$cpf]['contas'][$num_conta]['extrato'][] = "Depósito de R$$valor_deposito em $dataHora";
+
+    print 'Depósito realizado com sucesso';
+    return true;
+}
+
+function menu(){
+    print "\n==================== MEU BANCO EM PHP ====================
+    1 - cadastrar cliente
+    2 - cadastrar conta
+    3 - depósitar
+    4 - sacar
+    5 - consultar saldo
+    6 - consultar extrato
+    7 - sair
+    
+    Escolha uma opção: ";
+}
+
+menu();
+
