@@ -75,5 +75,27 @@ function menu(){
     Escolha uma opção: ";
 }
 
-menu();
+while (true) {
+    menu();
+
+    $opcao = readline();
+
+    switch ($opcao) {
+        case '1':
+            cadastar_cliente($clientes);
+            break;
+        case '2':
+            cadastrar_contas($clientes);
+        case '3':
+            depositar($clientes);
+        case '7':
+            print"Obrigado por usar nosso banco";
+            die();
+        
+        default:
+            print "Opção inválida";
+            break;
+    }
+
+}
 
